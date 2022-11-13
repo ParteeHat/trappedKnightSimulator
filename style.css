@@ -1,0 +1,74 @@
+html, body {
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  overflow-y: clip;
+}
+
+#knightCanvas, #numberCanvas, #strokeCanvas {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 2;
+}
+
+#settingsWrapper {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  z-index: 3;
+  background-color: rgba(20, 20, 20, 0.5);
+  padding: 5px;
+  margin: 2px;
+  border-radius: 10px;
+  min-width: 237.683px;
+}
+
+input {
+  max-width: 70px;
+}
+
+#strokeColorInput, #gridColorInput, #backgroundColorInput {
+  width: 77px;
+  max-width: 77px;
+}
+
+p {
+  margin: 0px;
+}
+
+#stepCount {
+  max-width: 76px;
+  text-align: center;
+  white-space: normal;
+}
+
+#showButton, #submitInput {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0%);
+}
+
+#showButton {
+  background-color: #ffffff;
+  border: none;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  
+}
+
+#showButton > p {
+  position: relative;
+  transform: translate(0%, -15%);
+}
+
+#showButton > #downArrow {
+  position: relative;
+  transform: translate(0%, -10%);
+}
+
+/* #myCanvas {
+  z-index: 0;
+} */

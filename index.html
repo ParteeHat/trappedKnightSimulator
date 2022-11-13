@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Trapped Knight Simulator</title>
+  <link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+  <div id="settingsWrapper">
+    <button id="showButton"><p>&#9650;</p></button>
+    <table id="settingsTable">
+      <tr>
+        <td><abbr title="Only works for zoom values less than 15">Show Numbers</abbr></td>
+        <td><input id="numberInput" type="checkbox" checked /></td>
+      </tr>
+      <tr>
+        <td>Show Boxes</td>
+        <td><input id="boxInput" type="checkbox" checked /></td>
+      </tr>
+      <tr>
+        <td>Show Lines</td>
+        <td><input id="lineInput" type="checkbox" checked /></td>
+      </tr>
+      <tr>
+        <td>Show Grid</td>
+        <td><input id="gridInput" type="checkbox" checked /></td>
+      </tr>
+      <tr>
+        <td>Make Line Static</td>
+        <td><input id="staticInput" type="checkbox" checked /></td>
+      </tr>
+      <tr>
+        <td>Line Stroke</td>
+        <td><input id="strokeInput" value="0.5" /></td>
+      </tr>
+      <tr>
+        <td>Zoom</td>
+        <td><input id="zoomInput" value="28" /></td>
+      </tr>
+      <tr>
+        <td>Speed (ms)</td>
+        <td><input id="speedInput" value="100" /></td>
+      </tr>
+      <tr>
+        <td><abbr title="Try out: (3, 5) (5,6) (5,7) (3,4) (1,2) (5, 8) (8, 13) (13, 21) (8,71)">Knight
+            X</abbr></td>
+        <td><input id="xInput" value="1" /></td>
+      </tr>
+      <tr>
+        <td><abbr title="Recursives which look cool: (1, 73) (11, 12) (6, 13)">Knight Y</abbr></td>
+        <td><input id="yInput" value="2" /></td>
+      </tr>
+      <tr>
+        <td>Color Cycle Speed</td>
+        <td><input id="stepsInput" value="15" /></td>
+      </tr <tr>
+      <td>Stroke Color</td>
+      <td><input id="strokeColorInput" value="#aaaaaa" type="color"></td>
+      </tr>
+      <tr>
+        <td>Grid Color</td>
+        <td><input id="gridColorInput" value="#dddddd" type="color"></td>
+      </tr>
+      <tr>
+        <td>Background Color</td>
+        <td><input id="backgroundColorInput" value="#ffffff" type="color"></td>
+      </tr>
+      <tr>
+        <td><button id="submitInput">Start</button></td>
+        <td>
+          <p id="stepCount">Step #: 1</p>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <canvas id="gridCanvas" width="10000" height="10000"></canvas>
+  <canvas id="knightCanvas" width="10000" height="10000"></canvas>
+  <canvas id="numberCanvas" width="10000" height="10000"></canvas>
+  <canvas id="strokeCanvas" width="10000" height="10000"></canvas>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
