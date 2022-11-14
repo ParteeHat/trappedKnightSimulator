@@ -14,9 +14,8 @@ html, body {
 }
 
 #settingsWrapper {
-  position: absolute;
   top: 0px;
-  right: 0px;
+  float: right;
   z-index: 3;
   background-color: rgba(20, 20, 20, 0.5);
   padding: 5px;
@@ -61,12 +60,12 @@ p {
 
 #showButton > p {
   position: relative;
-  transform: translate(0%, -15%);
+  transform: translate(-30%, -10%);
 }
 
 #showButton > #downArrow {
   position: relative;
-  transform: translate(0%, -10%);
+  transform: translate(-30%, -10%);
 }
 
 /* #myCanvas {
