@@ -29,8 +29,20 @@
         <td><input id="gridInput" type="checkbox" checked /></td>
       </tr>
       <tr>
-        <td>Make Line Static</td>
-        <td><input id="staticInput" type="checkbox" checked /></td>
+        <td>Box Coloring</td>
+        <td><select id="boxType">
+          <option value="static">Static</option>
+          <option value="distance" selected>Based on distance</option>
+          <option value="steps">Based on step count</option>
+        </select></td>
+      </tr>
+      <tr>
+        <td>Line Coloring</td>
+        <td><select id="lineType">
+          <option value="static">Static</option>
+          <option value="distance">Based on distance</option>
+          <option value="steps">Based on step count</option>
+        </select></td>
       </tr>
       <tr>
         <td>Line Stroke</td>
@@ -56,9 +68,14 @@
       <tr>
         <td>Color Cycle Speed</td>
         <td><input id="stepsInput" value="15" /></td>
-      </tr <tr>
-      <td>Stroke Color</td>
-      <td><input id="strokeColorInput" value="#aaaaaa" type="color"></td>
+      </tr>
+      <tr>
+        <td>Box Color</td>
+        <td><input id="boxColorInput" value="#aaaaaa" type="color"></td>
+      </tr>
+      <tr>
+        <td>Stroke Color</td>
+        <td><input id="strokeColorInput" value="#aaaaaa" type="color"></td>
       </tr>
       <tr>
         <td>Grid Color</td>

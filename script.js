@@ -1,3 +1,4 @@
+// Calculate number at a certain coordinate
 const spiralCell = (x, y) => {
   if (x == y & y == 0) return 1;
   else if (-x < y && y <= x) { // First quadrant
@@ -15,6 +16,7 @@ const spiralCell = (x, y) => {
   }
 };
 
+// Draws the grid
 const drawGrid = (context, splits, canvasSize) => {
   // Draw vertical lines
   for (var x = 0.5; x < canvasSize + 1; x += boxSize) {
@@ -37,8 +39,9 @@ const drawGrid = (context, splits, canvasSize) => {
   context.stroke();
 }
 
+// Draws the numbers
 const drawNumbers = (context, splits, canvasSize) => {
-  context.font = `${lineStroke * 20}px serif`;
+  context.font = `10px serif`;
 
   for (let x = 0; x < boxSize; x++) {
     for (let y = 0; y < boxSize; y++) {
@@ -47,7 +50,9 @@ const drawNumbers = (context, splits, canvasSize) => {
   }
 }
 
+// Finds the position where the knight can go which has the smallest number
 const simulate = (travelX, travelY) => {
+  // Places them all in an object
   let possibleSquares = [
     {
       num: spiralCell(knightX + travelX, knightY + travelY),
@@ -91,33 +96,48 @@ const simulate = (travelX, travelY) => {
     }
   ]
 
+  // Sorts them
   var sorted = possibleSquares.sort((a, b) => {
     return (a.num > b.num) ? 1 : ((b.num > a.num) ? -1 : 0)
   });
 
+  // Draws boxes and lines
   trapped = true
   for (let item of sorted) {
-    if (!vistedPositions.includes(item.num)) {
+    if (!visitedPositions.includes(item.num)) {
       if (showLines) {
         strokeContext.beginPath()
         strokeContext.moveTo((boxSize * (Math.floor(splits / 2) + knightX) + boxSize / 2), (boxSize * (Math.floor(splits / 2) + knightY) + boxSize / 2));
 
         strokeContext.lineTo((boxSize * (Math.floor(splits / 2) + item.x) + boxSize / 2), (boxSize * (Math.floor(splits / 2) + item.y) + boxSize / 2));
-        if (staticLineStrokeColor) {
+        if (lineType == "static") {
           strokeContext.strokeStyle = strokeColor
-        } else {
+        } else if (lineType == "distance") {
           strokeContext.strokeStyle = generateDistanceRainbowColor(item.x, item.y);
+        } else if (lineType == "steps") {
+          strokeContext.strokeStyle = generateStepsRainbowColor();
+        } else {
+          console.error("Line type is undefined")
         }
         strokeContext.lineWidth = lineStroke;
         strokeContext.closePath()
         strokeContext.stroke();
       }
       if (showBoxes) {
-        context.fillStyle = generateDistanceRainbowColor(item.x, item.y)
+        if (boxType == "static") {
+          context.fillStyle = boxColor
+        } else if (boxType == "distance") {
+          context.fillStyle = generateDistanceRainbowColor(item.x, item.y)
+        } else if (boxType == "steps") {
+          context.fillStyle = generateStepsRainbowColor()
+        } else {
+          console.error("Box type is undefined")
+        }
+        
         context.fillRect((boxSize * (Math.floor(splits / 2) + item.x)), (boxSize * (Math.floor(splits / 2) + item.y)), boxSize, boxSize);
       }
 
-      vistedPositions.push(item.num)
+      visitedPositions.push(item.num)
       knightX = item.x
       knightY = item.y
       document.getElementById("stepCount").innerText = "Step #: " + ++turnCount
@@ -133,6 +153,7 @@ const simulate = (travelX, travelY) => {
   }
 }
 
+// Draws knight and calls simulate
 const drawFrame = () => {
   simulate(knightXDistance, knightYDistance)
   knightContext.clearRect(0, 0, canvas.width, canvas.height);
@@ -145,15 +166,22 @@ const drawFrame = () => {
         drawFrame()
       }, timeInterval)
     } else {
-      alert("TIME INPUT ISN't A NUMBER")
+      alert("TIME INPUT ISN'T A NUMBER")
     }
   }
 }
 
+// Returns a color based on the distance from the center and a multiplier
 const generateDistanceRainbowColor = (x, y) => {
   return `hsl(${(stepsPerColorCycle * Math.sqrt(x ** 2 + y ** 2)) % 360}, 100%, 50%)`
 }
 
+// Returns a color based on how many steps the knight has taken and a multiplier
+const generateStepsRainbowColor = () => {
+  return `hsl(${((stepsPerColorCycle / 5) * turnCount) % 360}, 100%, 50%)`
+}
+
+// Clears all canvases and resets variables
 const reset = () => {
   context.beginPath();
   context.moveTo(0, 0);
@@ -168,11 +196,12 @@ const reset = () => {
   knightX = 0
   knightY = 0
   trapped = false
-  vistedPositions = [1]
+  visitedPositions = [1]
   turnCount = 1
   document.getElementById("stepCount").innerText = "Step #: 1"
 }
 
+// Initialization
 const start = () => {
   if (showGrid) {
     drawGrid(context, splits, canvasSize);
@@ -191,7 +220,7 @@ const start = () => {
 var canvas = document.getElementById('gridCanvas');
 
 var context = canvas.getContext('2d');
-var canvasSize = window.innerHeight
+var canvasSize = (window.innerHeight > window.innerWidth) ? window.innerWidth : window.innerHeight;
 var splits = 57
 var boxSize = (canvasSize / splits)
 canvas.width = canvasSize
@@ -201,7 +230,7 @@ var knightCanvas = document.getElementById('knightCanvas');
 var knightContext = knightCanvas.getContext('2d');
 knightCanvas.width = canvasSize
 knightCanvas.height = canvasSize
-var vistedPositions = [1]
+var visitedPositions = [1]
 var knightX = 0
 var knightY = 0
 var knightXDistance = 1
@@ -216,11 +245,13 @@ var showGrid = true
 var turnCount = 1;
 var stepsPerColorCycle = 15
 var gridColor = "#dddddd"
-var staticLineStrokeColor = true
 var strokeColor = "#aaaaaa"
 var startTime
 var endTime
 var panelToggled = true
+var lineType = "static"
+var boxType = "distance"
+var boxColor = "#cccccc"
 
 var numberCanvas = document.getElementById('numberCanvas');
 var numberContext = numberCanvas.getContext('2d');
@@ -232,6 +263,7 @@ var strokeContext = strokeCanvas.getContext('2d');
 strokeCanvas.width = canvasSize
 strokeCanvas.height = canvasSize
 
+// Adds settings 
 const img = new Image();
 img.onload = () => {
   document.getElementById("submitInput").addEventListener('click', () => {
@@ -256,11 +288,8 @@ img.onload = () => {
     } else {
       showGrid = false
     }
-    if (document.getElementById("staticInput").checked) {
-      staticLineStrokeColor = true
-    } else {
-      staticLineStrokeColor = false
-    }
+    boxType = document.getElementById("boxType").value
+    lineType = document.getElementById("lineType").value
     lineStroke = Number(document.getElementById("strokeInput").value)
     splits = Number(document.getElementById("zoomInput").value) * 2 + 1
     boxSize = (canvasSize / splits)
@@ -268,6 +297,7 @@ img.onload = () => {
     knightXDistance = Number(document.getElementById("xInput").value)
     knightYDistance = Number(document.getElementById("yInput").value)
     stepsPerColorCycle = Number(document.getElementById("stepsInput").value)
+    boxColor = document.getElementById("boxColorInput").value
     strokeColor = document.getElementById("strokeColorInput").value
     gridColor = document.getElementById("gridColorInput").value
     document.body.style.backgroundColor = document.getElementById("backgroundColorInput").value
@@ -284,6 +314,7 @@ img.onload = () => {
 };
 img.src = 'knight.png';
 
+// Toggles the setting panel
 document.getElementById("showButton").addEventListener("click", () => {
   if (panelToggled) {
     document.getElementById("showButton").innerHTML = "<p id='downArrow'>&#9660;</p>"
